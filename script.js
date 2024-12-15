@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
     const loginError = document.getElementById("loginError");
 
+    // Redirection to login.html if not logged in (for other pages)
+    if (!localStorage.getItem("loggedIn") && window.location.pathname !== "/index.html") {
+        window.location.href = "index.html";
+    }
+
     if (loginForm) {
         loginForm.addEventListener("submit", function (e) {
             e.preventDefault();
@@ -16,17 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (username === validUsername && password === validPassword) {
                 localStorage.setItem("loggedIn", "true");
-                window.location.href = "index.html";
+                window.location.href = "home.html";
             } else {
                 loginError.style.display = "block";
             }
         });
     }
 
-    // Redirection to login.html if not logged in (for other pages)
-    if (!localStorage.getItem("loggedIn") && window.location.pathname !== "/login.html") {
-        window.location.href = "login.html";
-    }
 
     // Logout button functionality
     const logoutButton = document.getElementById("logoutButton");
@@ -56,11 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Thank you for your order, " + name + "!");
         localStorage.removeItem('selectedItems'); // Clear the cart after checkout
         localStorage.setItem('orderPlaced', 'true'); // Set the flag to indicate order is placed
-
-        // Redirect to checkout page with a delay
-        setTimeout(function () {
-            location.href = "checkout.html"; // Redirect to checkout.html after 2 seconds
-        }, 2000); // Delay of 2 seconds
     });
 });
 
